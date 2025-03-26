@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 //utiles
+import router from "./routes/userRoute.js";
 import connectDB from "./config/db.js";
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -15,9 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.send("welcome to website");
-});
+app.use("/api/users", router);
 
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
