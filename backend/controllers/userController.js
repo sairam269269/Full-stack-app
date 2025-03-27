@@ -1,7 +1,7 @@
-import express from "express";
 import asynchandler from "../middlewares/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import createToken from "../utils/createToken.js";
 
 const createUser = asynchandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -16,6 +16,8 @@ const createUser = asynchandler(async (req, res) => {
   const newUser = new User({ username, email, password: hashPassword });
   try {
     await newUser.save();
+    createToken(res, newUser._id);
+
     res.status(200).json({
       _id: newUser._id,
       username: newUser.username,
